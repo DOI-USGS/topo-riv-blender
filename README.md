@@ -14,7 +14,7 @@
 
 **Digital Object Identifier (DOI)**: <#####>
 
-**USGS Information Product Data System (IPDS) no.**: IP-##### (internal agency tracking)
+**USGS Information Product Data System (IPDS) no.**: IP-183869 (internal agency tracking)
 
 ------------------------------------------------------------------------
 
