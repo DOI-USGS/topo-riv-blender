@@ -12,11 +12,13 @@
 
 **Year of Version**: 2025
 
-**Digital Object Identifier (DOI)**: <#####>
+**Digital Object Identifier (DOI)**: https://doi.org/10.5066/P1XB53NB
 
 **USGS Information Product Data System (IPDS) no.**: IP-183869 (internal agency tracking)
 
 ------------------------------------------------------------------------
+
+> _A newer version of the software may be available. See https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/releases to view all releases._
 
 ## Introduction
 
