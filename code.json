@@ -3,27 +3,23 @@
     "name": "TopoRivBlender",
     "organization": "U.S. Geological Survey",
     "description": "A Python code pipeline for fetching topographic and hydrographic data and creating 3-dimensional visualizations. Visualizations are rendered using Blender, a free, open-source computer graphics software.",
-    "version": "1.0.0",
-    "status": "Release Candidate",
-
+    "version": "main",
+    "status": "Development",
     "permissions": {
       "usageType": "openSource",
       "licenses": [
         {
           "name": "Public Domain, CC0-1.0",
-          "URL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/1.0.0/LICENSE.md"
+          "URL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/main/LICENSE.md"
         }
       ]
     },
-
     "homepageURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender",
-    "downloadURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/archive/1.0.0/topo-riv-blender-1.0.0.zip",
-    "disclaimerURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/1.0.0/DISCLAIMER.md",
+    "downloadURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/archive/main/topo-riv-blender-main.zip",
+    "disclaimerURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/main/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender.git",
     "vcs": "git",
-
-    "laborHours": 0,
-
+    "laborHours": 300,
     "tags": [
       "USGS",
       "python",
@@ -35,18 +31,58 @@
       "visualization",
       "3d"
     ],
-
     "languages": [
       "Python"
     ],
-
     "contact": {
       "name": "Jeffrey S. Kwang",
       "email": "jkwang@usgs.gov"
     },
-
     "date": {
-      "metadataLastUpdated": "2025-01-22"
+      "metadataLastUpdated": "2025-11-19"
+    }
+  },
+  {
+    "name": "TopoRivBlender",
+    "organization": "U.S. Geological Survey",
+    "description": "A Python code pipeline for fetching topographic and hydrographic data and creating 3-dimensional visualizations. Visualizations are rendered using Blender, a free, open-source computer graphics software.",
+    "version": "1.0.0",
+    "status": "Release Candidate",
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/1.0.0/LICENSE.md"
+        }
+      ]
+    },
+    "homepageURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender",
+    "downloadURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/archive/1.0.0/topo-riv-blender-1.0.0.zip",
+    "disclaimerURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender/-/raw/1.0.0/DISCLAIMER.md",
+    "repositoryURL": "https://code.usgs.gov/wma/vizlab/topo-riv-blender.git",
+    "vcs": "git",
+    "laborHours": 200,
+    "tags": [
+      "USGS",
+      "python",
+      "water",
+      "topography",
+      "hydrography",
+      "snakemake",
+      "blender",
+      "visualization",
+      "3d"
+    ],
+    "languages": [
+      "Python"
+    ],
+    "contact": {
+      "name": "Jeffrey S. Kwang",
+      "email": "jkwang@usgs.gov"
+    },
+    "date": {
+      "metadataLastUpdated": "2025-11-19"
     }
   }
 ]
