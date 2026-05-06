@@ -614,13 +614,13 @@ def add_pin(
 
     # add label
     string2curve.inputs["String"].default_value = label
-    string2curve.align_y = "BOTTOM"
-    string2curve.align_x = "CENTER"
+    string2curve.inputs["Align Y"].default_value = "Bottom"
+    string2curve.inputs["Align X"].default_value = "Center"
     try:
         font = bpy.data.fonts.load(
             "fonts/" + params.label_font.replace(" ", "_") + ".ttf"
         )
-        string2curve.font = font
+        string2curve.inputs["Font"].default_value = font
     except:
         print("using default font")
 
