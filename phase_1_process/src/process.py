@@ -132,8 +132,10 @@ def setup_blender_data(
         width of the river
     river_width_coefficient: float
         coefficient in the auto river width algorithm, default is 2.2
-    river_width_coefficient: float
-        coefficient in the auto river width algorithm for scaling rivers based on stream order, default is 0.5
+    river_scale_boolean: boolean
+        boolean that determines if river width scales with stream order
+    river_scale_coefficient: float
+        coefficient in the auto river width algorithm for scaling rivers based on stream order, default is 0.25
     waterbody_colors: list of colors (named color strings, hexcodes, or rgba tuples)
         list of colors of the waterbodies: playa, icemass, lakepond, reservoir, swampmarsh, esturary
     min_res: int
