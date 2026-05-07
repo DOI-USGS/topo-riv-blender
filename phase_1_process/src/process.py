@@ -215,14 +215,16 @@ def setup_blender_data(
     # Load flowlines if exists
     if flowlines_shpfile != "NULL":
         flowlines = gpd.read_file(flowlines_shpfile).to_crs(map_crs)
-        flowlines["geometry"] = flowlines.make_valid()
-        flowlines = gpd.clip(flowlines, extent_shp)
+        if flowlines.empty == False:
+            flowlines["geometry"] = flowlines.make_valid()
+            flowlines = gpd.clip(flowlines, extent_shp)
 
     # Load waterbody is exists
     if waterbody_shpfile != "NULL":
         waterbody = gpd.read_file(waterbody_shpfile).to_crs(map_crs)
-        waterbody["geometry"] = waterbody.make_valid()
-        waterbody = gpd.clip(waterbody, extent_shp)
+        if waterbody.empty == False:
+            waterbody["geometry"] = waterbody.make_valid()
+            waterbody = gpd.clip(waterbody, extent_shp)
 
     # If there is ocean in the domain, we will splice together two colormaps
     # One for the topography and one for the ocean floor.
@@ -503,7 +505,7 @@ def setup_blender_data(
                 )
 
         # Draw water bodies
-        if waterbody_shpfile != "NULL":
+        if waterbody_shpfile != "NULL" and waterbody.empty == False:
             # FTYPE codes for Playa, Ecemass, LakePond, Reservior, SwampMarsh, Esturary
             FTYPE_codes = [361, 378, 390, 436, 466, 493]
 
