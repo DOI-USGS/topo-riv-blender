@@ -1,3 +1,4 @@
+import numpy as np
 from landlab import RasterModelGrid
 from landlab.components import (
     FlowAccumulator,
@@ -5,31 +6,8 @@ from landlab.components import (
     FastscapeEroder,
 )
 
-
-# Grid
-NROWS, NCOLS = 60, 60          # number of nodes
-DX = 200.0                     # node spacing [m]
-
-# Time
-DT = 2_000.0                   # timestep [yr]
-TOTAL_TIME = 2_000_000.0       # total run time [yr]
-N_STEPS = int(TOTAL_TIME / DT) # number of steps
-SNAPSHOT_STEPS = N_STEPS // 4  # save a snapshot every quarter
-
-# Tectonics
-UPLIFT_RATE = 1e-3             # [m/yr]  ~1 mm/yr
-
-# Fluvial erosion (stream power)
-K_SP = 1e-5                    # erodibility coefficient [m^(1-2m)/yr]
-M_SP = 0.5                     # area exponent
-N_SP = 1.0                     # slope exponent
-
-# Hillslope diffusion
-K_D = 0.01                     # diffusivity [m²/yr]
-
-# ─── Build grid ──────────────────────────────────────────────────────────────
-
-grid = RasterModelGrid((NROWS, NCOLS), xy_spacing=DX)
+# Set up Grid
+grid = RasterModelGrid((n_rows, n_cols), xy_spacing=dx)
 
 # Set boundary conditions: open on all edges (fixed-value = 0 m)
 grid.set_closed_boundaries_at_grid_edges(
@@ -40,20 +18,18 @@ grid.set_closed_boundaries_at_grid_edges(
 )
 
 # Initial topography: small random noise to seed drainage network
-rng = np.random.default_rng(42)
+rng = np.random.default_rng(123)
 z = grid.add_zeros("topographic__elevation", at="node")
 z += rng.uniform(0, 0.1, size=z.shape)
 
-# Keep boundaries pinned at 0 m (base level)
-z[grid.boundary_nodes] = 0.0
+# Keep boundaries pinned at 0 m 
+z[grid.boundary_nodes] = 0.0 
 
-# ─── Instantiate components ──────────────────────────────────────────────────
-
+# landlab modules
 fa  = FlowAccumulator(grid, flow_director="FlowDirectorSteepest")
-spe = FastscapeEroder(grid, K_sp=K_SP, m_sp=M_SP, n_sp=N_SP)
-ld  = LinearDiffuser(grid, linear_diffusivity=K_D)
+sp = FastscapeEroder(grid, K_sp=K_sp, m_sp=m_sp, n_sp=n_sp)
+ld  = LinearDiffuser(grid, linear_diffusivity=K_d)
 
-# ─── Run model ───────────────────────────────────────────────────────────────
 
 snapshots = []          # list of (time_yr, elevation_array)
 times_kyr = []
