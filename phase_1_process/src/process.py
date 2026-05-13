@@ -403,7 +403,7 @@ def setup_blender_data(
                 proj_layer,
                 extent=list(get_raster_extent(proj_ds)),
                 levels=contour_levels,
-                cmap="gray",
+                cmap=plt.get_cmap("gray", 2**16),
                 vmin=min_dem,
                 vmax=max_dem,
                 origin="upper",
@@ -414,7 +414,7 @@ def setup_blender_data(
             ax_heightmap.imshow(
                 proj_layer,
                 extent=list(get_raster_extent(proj_ds)),
-                cmap="gray",
+                cmap=plt.get_cmap("gray", 2**16),
                 vmin=min_dem,
                 vmax=max_dem,
             )
