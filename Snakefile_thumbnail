@@ -3,12 +3,13 @@ module_name = "blender_parameters.blender_params_thumbnail"
 
 # Import parameters file
 import os, sys, importlib
+import numpy as np
 render_params = module_name.replace(".", os.sep) + ".py"
 parameters = importlib.import_module(module_name)
 
 square = 0.06
-aspect = 1.25755052918
 UL_corner_specify = [37.36615071600088, -110.8944504506659]
+aspect = 1.0 / np.cos(np.deg2rad(UL_corner_specify[0] - square * 0.5))
 
 # Define the final output
 rule all:
