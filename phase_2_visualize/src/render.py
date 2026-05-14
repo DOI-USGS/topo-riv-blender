@@ -155,7 +155,7 @@ if params.camera_type == "orthogonal":
     bpy.data.cameras["topo_cam"].type = "ORTHO"
     bpy.data.cameras["topo_cam"].ortho_scale = params.ortho_scale
     bpy.data.cameras["topo_cam"].shift_x = params.shift_x
-    bpy.data.cameras["topo_cam"].shift_y =params. shift_y
+    bpy.data.cameras["topo_cam"].shift_y =params.shift_y
 elif params.camera_type == "perspective":
     bpy.data.cameras["topo_cam"].type = "PERSP"
     bpy.data.cameras["topo_cam"].lens = params.focal_length

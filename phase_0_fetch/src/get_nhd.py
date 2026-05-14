@@ -88,8 +88,13 @@ def nhd_download(nhd_type, extent_shpfile, nhd_shpfile, render_pixels):
         # Set up NHD
         hr = NHD(nhd_type)
 
-    # Download NHD
-    nhdp_hr = hr.bygeom(extent.geometry[0].bounds)
+    try:
+        # Download NHD
+        nhdp_hr = hr.bygeom(extent.geometry[0].bounds)
+
+    except:
+        print ("no nhd data found")
+        nhdp_hr = gpd.GeoDataFrame(columns=["id", "geometry"], geometry="geometry", crs="EPSG:4326")
 
     # Save NHD data as a shapefile
     nhdp_hr.to_file(nhd_shpfile)

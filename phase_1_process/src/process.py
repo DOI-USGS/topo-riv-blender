@@ -132,8 +132,10 @@ def setup_blender_data(
         width of the river
     river_width_coefficient: float
         coefficient in the auto river width algorithm, default is 2.2
-    river_width_coefficient: float
-        coefficient in the auto river width algorithm for scaling rivers based on stream order, default is 0.5
+    river_scale_boolean: boolean
+        boolean that determines if river width scales with stream order
+    river_scale_coefficient: float
+        coefficient in the auto river width algorithm for scaling rivers based on stream order, default is 0.25
     waterbody_colors: list of colors (named color strings, hexcodes, or rgba tuples)
         list of colors of the waterbodies: playa, icemass, lakepond, reservoir, swampmarsh, esturary
     min_res: int
@@ -215,14 +217,16 @@ def setup_blender_data(
     # Load flowlines if exists
     if flowlines_shpfile != "NULL":
         flowlines = gpd.read_file(flowlines_shpfile).to_crs(map_crs)
-        flowlines["geometry"] = flowlines.make_valid()
-        flowlines = gpd.clip(flowlines, extent_shp)
+        if flowlines.empty == False:
+            flowlines["geometry"] = flowlines.make_valid()
+            flowlines = gpd.clip(flowlines, extent_shp)
 
     # Load waterbody is exists
     if waterbody_shpfile != "NULL":
         waterbody = gpd.read_file(waterbody_shpfile).to_crs(map_crs)
-        waterbody["geometry"] = waterbody.make_valid()
-        waterbody = gpd.clip(waterbody, extent_shp)
+        if waterbody.empty == False:
+            waterbody["geometry"] = waterbody.make_valid()
+            waterbody = gpd.clip(waterbody, extent_shp)
 
     # If there is ocean in the domain, we will splice together two colormaps
     # One for the topography and one for the ocean floor.
@@ -399,7 +403,7 @@ def setup_blender_data(
                 proj_layer,
                 extent=list(get_raster_extent(proj_ds)),
                 levels=contour_levels,
-                cmap="gray",
+                cmap=plt.get_cmap("gray", 2**16),
                 vmin=min_dem,
                 vmax=max_dem,
                 origin="upper",
@@ -410,7 +414,7 @@ def setup_blender_data(
             ax_heightmap.imshow(
                 proj_layer,
                 extent=list(get_raster_extent(proj_ds)),
-                cmap="gray",
+                cmap=plt.get_cmap("gray", 2**16),
                 vmin=min_dem,
                 vmax=max_dem,
             )
@@ -503,7 +507,7 @@ def setup_blender_data(
                 )
 
         # Draw water bodies
-        if waterbody_shpfile != "NULL":
+        if waterbody_shpfile != "NULL" and waterbody.empty == False:
             # FTYPE codes for Playa, Ecemass, LakePond, Reservior, SwampMarsh, Esturary
             FTYPE_codes = [361, 378, 390, 436, 466, 493]
 
