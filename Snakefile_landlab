@@ -1,0 +1,83 @@
+# Render Parameters File
+module_name = "blender_parameters.blender_params_landlab"
+
+# Import parameters file
+import os, sys, importlib
+render_params = module_name.replace(".", os.sep) + ".py"
+parameters = importlib.import_module(module_name)
+
+# number of frames in animation
+num_frames = 20
+project = "landlab-test"
+
+# Define the final outputs
+rule all:
+    input:
+        "phase_2_visualize/out/"+project+"/animation.mp4"
+
+# Run a vanilla lem in landlab and output a netcdf with the elevation results
+rule lem:
+    params:
+        n_steps = 1000,
+        dt = 1000.0,
+        num_frames = num_frames,
+    output:
+        output_file = "phase_0_fetch/out/"+project+"_lem.nc",
+    script:
+        "phase_1_process/src/lem.py"
+
+# # Creates a grayscale height map and texture map for Blender to render.
+# # The height map is used to determine how high the landscape should be 
+# # in the render, and the texture map determines the color of the landscape.
+
+rule create_heightmap_texturemaps:
+    params:
+        topo_cmap = parameters.topo_cmap,
+        background_color = parameters.background_color,
+        wall_color = parameters.wall_color,
+        river_color = parameters.river_color
+    input:
+        lem_file = "phase_0_fetch/out/"+project+"_lem.nc"
+    output:
+        dimensions_file = "phase_1_process/out/"+project+"/dimensions.npy",
+        heightmap_files = ["phase_1_process/out/"+project+"/heightmap_"+str(frame).zfill(5)+".png" for frame in range(0,num_frames+1)],
+        texturemap_files = ["phase_1_process/out/"+project+"/texturemap_"+str(frame).zfill(5)+".png" for frame in range(0,num_frames+1)],
+        apronmap_file = "phase_1_process/out/"+project+"/apronmap.png"
+    script:
+        "phase_1_process/src/process_lem.py"
+
+# Using the height map and texture map, Blender sets up the scene 
+# (topography, lighting, and camera) and renders a photorealistic image.
+for frame in range(0,num_frames+1):
+    rule:
+        name:
+            "render_" + str(frame)
+        input:
+            dimensions_file = "phase_1_process/out/"+project+"/dimensions.npy",
+            heightmap_file = "phase_1_process/out/"+project+"/heightmap_"+str(frame).zfill(5)+".png",
+            texturemap_file = "phase_1_process/out/"+project+"/texturemap_"+str(frame).zfill(5)+".png",
+            apronmap_file = "phase_1_process/out/"+project+"/apronmap.png",
+            blender_params = render_params
+        output:
+            output_file = "phase_2_visualize/out/"+project+"/render_"+str(frame).zfill(5)+".png"
+        shell:
+            "Blender -b -P phase_2_visualize/src/render.py -- "
+            "{input.blender_params} "
+            "{input.dimensions_file} {input.heightmap_file} {input.texturemap_file} {input.apronmap_file} NULL "
+            "{output.output_file} "
+
+rule animate:
+    params:
+        prefix = "phase_2_visualize/out/"+project+"/render_*.png",
+        framerate = 15,
+    input:
+        ["phase_2_visualize/out/"+project+"/render_"+str(frame).zfill(5)+".png" for frame in range(0,num_frames+1)]
+    output:
+        outfile ="phase_2_visualize/out/"+project+"/animation.mp4"
+    shell:
+        r'''
+        ffmpeg -y \
+          -framerate {params.framerate} \
+          -pattern_type glob -i "{params.prefix}" \
+          -vcodec libx264 -pix_fmt yuv420p {output.outfile}
+        '''
