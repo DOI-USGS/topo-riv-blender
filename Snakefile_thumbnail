@@ -7,9 +7,9 @@ import numpy as np
 render_params = module_name.replace(".", os.sep) + ".py"
 parameters = importlib.import_module(module_name)
 
-square = 0.06
+square_size = 0.06
 UL_corner_specify = [37.36615071600088, -110.8944504506659]
-aspect = 1.0 / np.cos(np.deg2rad(UL_corner_specify[0] - square * 0.5))
+aspect = 1.0 / np.cos(np.deg2rad(UL_corner_specify[0] - square_size * 0.5))
 
 # Define the final output
 rule all:
@@ -20,7 +20,7 @@ rule all:
 rule make_bounding_box:
     params:
         UL_corner =[UL_corner_specify[0], UL_corner_specify[1]],
-        LR_corner = [UL_corner_specify[0]-square, UL_corner_specify[1]+square*aspect],
+        LR_corner = [UL_corner_specify[0]-square_size, UL_corner_specify[1]+square_size*aspect],
     output:
         extent_shpfile = "phase_0_fetch/out/{name}/extent.shp"
     script:
